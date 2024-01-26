@@ -7,20 +7,17 @@ class Solution(object):
         :type n: int
         :rtype: None Do not return anything, modify nums1 in-place instead.
         """
-        n_counter = 0
-        m_counter = 0
-        i = 0
-        while n_counter<n:
-            if m_counter<m and nums1[i] >= nums2[n_counter]:
-                nums1.insert(i, nums2[n_counter])
-                n_counter+=1
-            elif m_counter < m and nums1[i] < nums2[n_counter]:
-                m_counter+=1
-            elif m_counter >=m:
-                nums1.insert(i, nums2[n_counter])
-                n_counter+=1
-            i += 1
-        del nums1[m+n:]
+        i = m - 1
+        j = n - 1
+        k = m + n - 1
+        while j >= 0:
+            if i >= 0 and nums1[i] > nums2[j]:
+                nums1[k] = nums1[i]
+                i -= 1
+            else:
+                nums1[k] = nums2[j]
+                j -= 1
+            k -= 1
 
     def my_merge(self, l, r):
         result = []
@@ -44,7 +41,8 @@ class Solution(object):
         return self.my_merge(left_merge, right_merge)
     
 
-s = Solution()
-nums1=[1,0]
-s.merge(nums1, 1,[2],1)
-print(nums1)
+if __name__ == "__main__":
+    s = Solution()
+    nums1=[1,0]
+    s.merge(nums1, 1,[2],1)
+    print(nums1)
