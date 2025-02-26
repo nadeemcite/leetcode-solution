@@ -1,6 +1,3 @@
-from collections import defaultdict
-
-
 class Solution(object):
     def isAnagram(self, s, t):
         """
@@ -8,22 +5,14 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        return sorted(s) == sorted(t)
-    
-    def isAnagram2(self, s, t):
-        c = defaultdict(int)
-        for x in s:
-            c[x] += 1
-        for x in t:
-            x[x] -= 1
+        pack = [0]*26
+        if len(s) != len(t):
+            return False
+        for i, l in enumerate(s):
+            index_s = ord(l) - ord('a')
+            index_t = ord(t[i]) - ord('a')
+            pack[index_s] += 1
+            pack[index_t] -= 1
         
-        for v in c.values():
-            if v!=0:
-                return False
-        return True
+        return all(count==0 for count in pack)
 
-if __name__ == "__main__":
-    ptr = Solution()
-    s = "abba"
-    t = "dog cat cat dog"
-    print(ptr.isAnagram(s,t))
