@@ -7,7 +7,6 @@ class Solution(object):
         if len(nums) == 0:
             return 0
         sorted_nums = sorted(nums)
-        print(sorted_nums)
         max_seq = 1
         current_seq = 1
         for i, num in enumerate(sorted_nums[:-1]):

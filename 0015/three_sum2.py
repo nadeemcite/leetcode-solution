@@ -4,17 +4,18 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        triplets = []
         nums.sort()
         n = len(nums)
+        triplets = []
         for i in range(n):
             if i > 0 and nums[i-1] == nums[i]:
                 continue
-            l = i+1
-            r = n-1
+            target = - nums[i]
+            l = i + 1
+            r = n - 1
             checked = set()
-            while l<r:
-                if nums[l] + nums[r] == - nums[i]:
+            while l < r:
+                if nums[l] + nums[r] == target:
                     if nums[l] in checked:
                         l += 1
                     elif nums[r] in checked:
@@ -23,15 +24,13 @@ class Solution(object):
                         triplets.append([nums[i], nums[l], nums[r]])
                         checked.add(nums[l])
                         checked.add(nums[r])
-                        r -= 1
                         l += 1
-                elif nums[l] + nums[r] > - nums[i]:
-                    r -= 1
-                else:
+                        r -= 1
+                elif nums[l] + nums[r] < target:
                     l += 1
+                else:
+                    r -= 1
         return triplets
-    
-
-# print(Solution().threeSum([0,0,0,0]))
-print(Solution().threeSum([-1,0,1,2,-1,-4]))
-            
+                
+print(Solution().threeSum([3,0,-2,-1,1,2]))
+# print(Solution().threeSum([-2,0,0,2,2]))
