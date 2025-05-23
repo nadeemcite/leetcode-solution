@@ -7,27 +7,22 @@ class Solution(object):
         for l, r in queries:
             starts[l].append(r)
 
-        heap = []            # max-heap (store -r) of active queries
-        diff = [0] * (n + 1) # difference array
-        cur_dec = 0          # prefix sum of diff
-        used = 0             # how many queries we actually pick
+        heap = []
+        diff = [0] * (n + 1)
+        cur_dec = 0 
+        used = 0 
 
         for i in range(n):
-            # 1) Add new intervals that start at i
             for r in starts[i]:
                 heapq.heappush(heap, -r)
 
-            # 2) Purge any that no longer cover i
             while heap and -heap[0] < i:
                 heapq.heappop(heap)
 
-            # 3) Account for decrements so far
             cur_dec += diff[i]
             need = nums[i] + cur_dec
 
-            # 4) While we still need more at i, keep picking the farthest-reaching valid interval
             while need > 0:
-                # re-purge before each pop
                 while heap and -heap[0] < i:
                     heapq.heappop(heap)
                 if not heap:
@@ -36,13 +31,11 @@ class Solution(object):
                 r = -heapq.heappop(heap)
                 used += 1
 
-                # apply its “-1” to [i..r] via diff array
                 diff[i]    -= 1
                 diff[r+1]  += 1
                 cur_dec    -= 1
                 need       -= 1
 
-        # we used `used` queries; the rest can be removed
         return m - used
     
 
